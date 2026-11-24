@@ -5,497 +5,502 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Qinghua Guo · Computer Vision &amp; Machine Learning</title>
 <meta name="description" content="Qinghua Guo — PhD researcher at TU Eindhoven working on multi-object detection, tracking and behaviour recognition, and on deployed, monitored ML services.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23556B2F'/><text x='32' y='42' font-family='Arial' font-weight='700' font-size='26' fill='white' text-anchor='middle'>QG</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='32' fill='%23556B2F'/><text x='32' y='41' font-family='Georgia' font-size='26' fill='white' text-anchor='middle'>QG</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --green:#556B2F;        /* CV heading green */
-    --green-dark:#3F5022;
-    --green-soft:#EEF2E6;
-    --green-line:#C9D3B6;
-    --ink:#2E2E2E;          /* CV accent slate */
-    --body:#555;            /* CV body grey, nudged darker for screen contrast */
-    --muted:#7A7A7A;
-    --rule:#E4E4E0;
-    --bg:#FCFCFA;
+    --green:#556B2F;
+    --green-deep:#44561F;
+    --green-ink:#34421A;
+    --green-tint:#EDF1E4;
+    --green-line:#D5DDC5;
+    --ink:#1F2419;
+    --text:#4A4F44;
+    --muted:#868B80;
+    --bg:#F6F6F1;
     --card:#FFFFFF;
-    --radius:10px;
-    --max:1080px;
+    --line:#E6E6DF;
+    --serif:Fraunces,Georgia,"Times New Roman",serif;
+    --sans:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;
+    --side:300px;
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth;scroll-padding-top:72px}
-  body{margin:0;font-family:Lato,"Segoe UI",system-ui,-apple-system,sans-serif;color:var(--body);background:var(--bg);line-height:1.6;font-size:16.5px;-webkit-font-smoothing:antialiased}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.65;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
   a{color:var(--green);text-decoration:none}
   a:hover{text-decoration:underline;text-underline-offset:3px}
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  svg.i{width:18px;height:18px;flex:none}
 
-  /* ---------- nav ---------- */
-  nav{position:sticky;top:0;z-index:10;background:rgba(252,252,250,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
-  .mono{font-weight:900;letter-spacing:.06em;color:var(--green);font-size:18px}
-  .mono:hover{text-decoration:none}
-  nav ul{list-style:none;display:flex;gap:26px;margin:0;padding:0}
-  nav ul a{color:var(--ink);font-size:15px;font-weight:700}
-  nav ul a:hover,nav ul a.active{color:var(--green);text-decoration:none}
-  .menu-btn{display:none;background:none;border:0;font-size:24px;color:var(--ink);cursor:pointer}
+  .layout{display:grid;grid-template-columns:var(--side) 1fr;min-height:100vh}
 
-  /* ---------- hero ---------- */
-  .hero{padding:72px 0 48px}
-  .hero .wrap{display:grid;grid-template-columns:1fr 280px;gap:56px;align-items:center}
-  h1{font-weight:900;color:var(--green);font-size:clamp(40px,6vw,64px);letter-spacing:.02em;line-height:1.02;margin:0 0 10px;text-transform:uppercase}
-  .tagline{font-size:22px;font-weight:700;color:var(--ink);margin:0 0 18px}
-  .summary{max-width:620px;margin:0 0 14px}
-  .summary strong{color:var(--ink)}
-  .quote{display:flex;gap:10px;align-items:center;color:var(--ink);font-weight:700;font-size:15px;margin:0 0 26px}
-  .quote svg{flex:none;color:var(--green)}
-  .actions{display:flex;flex-wrap:wrap;gap:10px}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;border:1.5px solid var(--green);color:var(--green);font-weight:700;font-size:14.5px;transition:background .15s,color .15s}
-  .btn:hover{background:var(--green);color:#fff;text-decoration:none}
-  .btn.primary{background:var(--green);color:#fff}
-  .btn.primary:hover{background:var(--green-dark);border-color:var(--green-dark)}
-  .btn svg{width:16px;height:16px}
-  .portrait{position:relative;justify-self:center}
-  .portrait img{width:260px;height:260px;border-radius:50%;object-fit:cover;display:block;border:6px solid #fff;box-shadow:0 0 0 2px var(--green-line),0 18px 40px -18px rgba(63,80,34,.45)}
-  .facts{list-style:none;padding:0;margin:22px 0 0;font-size:14.5px;color:var(--ink);font-weight:700}
-  .facts li{display:flex;gap:9px;align-items:center;margin:6px 0}
-  .facts svg{flex:none;width:15px;height:15px;color:var(--green)}
+  /* ================= SIDEBAR ================= */
+  aside{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--green);color:#E9EEDF;display:flex;flex-direction:column;padding:48px 36px 32px;
+        background-image:radial-gradient(circle at 20% 0%,rgba(255,255,255,.10),transparent 55%),radial-gradient(circle at 100% 100%,rgba(0,0,0,.14),transparent 60%)}
+  .profile img{width:148px;height:148px;border-radius:50%;object-fit:cover;display:block;border:4px solid rgba(255,255,255,.9);box-shadow:0 14px 30px -14px rgba(0,0,0,.5)}
+  .profile h1{font-family:var(--serif);font-weight:600;font-size:30px;line-height:1.15;color:#fff;margin:22px 0 6px;letter-spacing:-.01em}
+  .profile .role{margin:0;font-size:14.5px;line-height:1.5;color:#DCE4CC}
+  .profile .loc{display:flex;align-items:center;gap:6px;margin:10px 0 0;font-size:13.5px;color:#C5D0B1}
+  .profile .loc svg{width:14px;height:14px}
 
-  /* ---------- stats ---------- */
-  .stats{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:var(--card)}
-  .stats .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
-  .stat{padding:26px 18px;border-left:1px dashed var(--rule)}
-  .stat:first-child{border-left:0;padding-left:0}
-  .stat b{display:block;font-size:30px;font-weight:900;color:var(--green);line-height:1.1}
-  .stat span{font-size:14px;color:var(--muted)}
+  nav{margin-top:40px}
+  nav ol{list-style:none;margin:0;padding:0}
+  nav a{display:flex;align-items:center;gap:14px;padding:8px 0;color:#CBD5B8;font-size:15px;font-weight:500;transition:color .2s}
+  nav a:hover{color:#fff;text-decoration:none}
+  nav a .n{font-size:11.5px;letter-spacing:.08em;color:#A9B793;width:18px}
+  nav a .bar{height:1px;width:22px;background:#A9B793;transition:width .25s,background .25s}
+  nav a:hover .bar,nav a.active .bar{width:44px;background:#fff}
+  nav a.active{color:#fff}
+  nav a.active .n{color:#fff}
 
-  /* ---------- sections ---------- */
-  section.block{padding:64px 0 8px}
-  h2{font-weight:900;color:var(--green);text-transform:uppercase;font-size:30px;letter-spacing:.01em;margin:0 0 28px;padding-bottom:8px;border-bottom:3px solid var(--green)}
-  h3{font-size:20px;color:var(--green);margin:0 0 4px;font-weight:700}
-  .meta{display:flex;flex-wrap:wrap;gap:6px 22px;align-items:center;font-size:15px;color:var(--ink);margin-bottom:10px}
-  .meta i{font-style:italic}
-  .meta .ic{display:inline-flex;gap:6px;align-items:center}
-  .meta svg{width:14px;height:14px;color:var(--muted)}
-  .entry{padding:4px 0 26px;margin-bottom:26px;border-bottom:1px dashed #D6D6D0}
-  .entry:last-child{border-bottom:0;margin-bottom:0}
-  .entry ul{margin:6px 0 0;padding-left:20px}
-  .entry li{margin:5px 0}
-  .entry li::marker{color:var(--green)}
-  .entry li b{color:var(--ink)}
-  .sub{font-weight:700;color:var(--ink);margin:12px 0 2px;font-size:15.5px}
+  .social{margin-top:auto;padding-top:32px;display:flex;gap:10px}
+  .social a{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;border:1px solid rgba(255,255,255,.35);transition:background .2s,color .2s}
+  .social a:hover{background:#fff;color:var(--green);text-decoration:none}
+  .social svg{width:17px;height:17px}
 
-  .pills{display:flex;flex-wrap:wrap;gap:7px}
-  .pill{border:1px solid #CFCFCA;border-radius:7px;padding:2px 10px;font-size:14px;color:var(--ink);background:#fff;white-space:nowrap}
-  .pill.g{border-color:var(--green-line);background:var(--green-soft);color:var(--green-dark)}
+  /* ================= MAIN ================= */
+  main{padding:72px 64px 40px;max-width:940px;width:100%;min-width:0}
+  section{padding:24px 0 56px;scroll-margin-top:24px}
+  .eyebrow{font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin:0 0 6px;display:flex;align-items:center;gap:10px}
+  .eyebrow::after{content:"";height:1px;width:40px;background:var(--green-line)}
+  h2{font-family:var(--serif);font-weight:600;color:var(--ink);font-size:36px;line-height:1.15;margin:0 0 28px;letter-spacing:-.015em}
+  h3{font-family:var(--serif);font-weight:600;color:var(--ink);font-size:20px;line-height:1.3;margin:0}
 
-  /* ---------- projects ---------- */
-  .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-  .card{background:var(--card);border:1px solid var(--rule);border-radius:var(--radius);padding:22px 22px 18px;display:flex;flex-direction:column;transition:border-color .15s,transform .15s,box-shadow .15s}
-  .card:hover{border-color:var(--green-line);transform:translateY(-2px);box-shadow:0 12px 28px -18px rgba(63,80,34,.5)}
-  .card .kicker{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:6px;display:flex;justify-content:space-between;gap:10px}
-  .card h3 a{color:var(--green)}
-  .card p{margin:6px 0 14px;font-size:15.5px}
-  .card ul{margin:0 0 14px;padding-left:18px;font-size:15px}
-  .card li{margin:3px 0}
-  .card li::marker{color:var(--green)}
-  .card .pills{margin-top:auto}
-  .card .repo{display:inline-flex;gap:7px;align-items:center;font-weight:700;font-size:14.5px;margin-top:14px}
-  .card .repo svg{width:16px;height:16px}
-  .badge{font-size:11.5px;font-weight:700;letter-spacing:.04em;color:var(--green-dark);background:var(--green-soft);border:1px solid var(--green-line);border-radius:999px;padding:1px 8px;text-transform:uppercase}
+  /* About */
+  .lead{font-family:var(--serif);font-size:27px;line-height:1.4;color:var(--ink);margin:0 0 22px;letter-spacing:-.01em;max-width:720px}
+  .lead em{font-style:normal;color:var(--green)}
+  .about p{max-width:680px}
+  .status{display:inline-flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 16px 7px 12px;font-size:14.5px;font-weight:500;color:var(--ink);margin:6px 0 0}
+  .dot{width:9px;height:9px;border-radius:50%;background:#6E9A2F;box-shadow:0 0 0 0 rgba(110,154,47,.6);animation:pulse 2.2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(110,154,47,.55)}70%{box-shadow:0 0 0 9px rgba(110,154,47,0)}100%{box-shadow:0 0 0 0 rgba(110,154,47,0)}}
+  .motto{margin:22px 0 0;font-family:var(--serif);font-style:italic;color:var(--muted);font-size:17px}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px}
+  .stat b{display:block;font-family:var(--serif);font-weight:600;font-size:28px;color:var(--green);line-height:1.1;letter-spacing:-.01em}
+  .stat span{display:block;margin-top:6px;font-size:13.5px;line-height:1.4;color:var(--muted)}
 
-  /* ---------- publications ---------- */
-  .filters{display:flex;flex-wrap:wrap;gap:8px;margin:-8px 0 22px;align-items:center}
-  .filters button{font:inherit;font-size:14px;font-weight:700;border:1.5px solid #CFCFCA;background:#fff;color:var(--ink);border-radius:999px;padding:5px 14px;cursor:pointer}
-  .filters button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
-  .filters .note{margin-left:auto;font-size:14.5px;color:var(--muted)}
-  .pubs{list-style:none;margin:0;padding:0;counter-reset:pub}
-  .pub{display:grid;grid-template-columns:62px 1fr;gap:16px;padding:16px 0;border-bottom:1px dashed #D6D6D0}
-  .pub:last-child{border-bottom:0}
-  .pub .yr{font-weight:900;color:var(--green);font-size:18px;line-height:1.4}
-  .pub .title{color:var(--ink);font-weight:700;font-size:16.5px}
-  .pub .authors{font-size:14.5px;margin:2px 0}
-  .pub .authors b{color:var(--ink)}
-  .pub .venue{font-size:14.5px;font-style:italic;color:var(--green-dark)}
-  .pub .links{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
-  .pub .links a,.pub .links span{font-size:12.5px;font-weight:700;border:1px solid var(--green-line);border-radius:6px;padding:1px 8px;text-transform:uppercase;letter-spacing:.04em}
-  .pub .links span{color:var(--muted);border-color:#DDD}
+  /* Experience timeline */
+  .timeline{position:relative;margin:0;padding:0 0 0 30px;list-style:none}
+  .timeline::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--green-line)}
+  .tl{position:relative;padding-bottom:40px}
+  .tl:last-child{padding-bottom:0}
+  .tl::before{content:"";position:absolute;left:-30px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--green)}
+  .when{font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--green);text-transform:uppercase}
+  .where{font-size:14.5px;color:var(--muted);margin:2px 0 10px}
+  .tl ul{margin:0;padding-left:18px}
+  .tl li{margin:6px 0}
+  .tl li::marker{color:var(--green-line)}
+  .tl li strong{color:var(--ink);font-weight:600}
+  .tl h4{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin:16px 0 4px}
+
+  /* Projects */
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s,border-color .2s}
+  .card:hover{transform:translateY(-3px);border-color:var(--green-line);box-shadow:0 18px 36px -24px rgba(52,66,26,.55)}
+  .card .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .card .ctx{font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .card .arrow{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--green-tint);color:var(--green);transition:background .2s,color .2s,transform .2s}
+  .card:hover .arrow{background:var(--green);color:#fff;transform:rotate(-45deg)}
+  .card h3 a{color:var(--ink)}
+  .card h3 a::after{content:"";position:absolute;inset:0;border-radius:16px}
+  .card h3 a:hover{text-decoration:none}
+  .card p{margin:8px 0 12px;font-size:15px}
+  .card ul{margin:0 0 16px;padding-left:18px;font-size:14.5px}
+  .card li{margin:4px 0}
+  .card li::marker{color:var(--green-line)}
+  .tags{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:auto;padding-top:14px;border-top:1px solid var(--line)}
+  .tags span{font-size:13px;font-weight:500;color:var(--green-deep)}
+  .tags span::before{content:"#";color:var(--green-line);margin-right:1px}
+  .flag{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8A6D1F;background:#F6EED6;border-radius:999px;padding:2px 9px;margin-left:8px;vertical-align:3px;font-family:var(--sans);white-space:nowrap}
+
+  /* Publications */
+  .filters{display:flex;flex-wrap:wrap;gap:6px;margin:-6px 0 18px;padding:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;width:fit-content}
+  .filters button{font:inherit;font-size:14px;font-weight:500;border:0;background:none;color:var(--text);border-radius:999px;padding:6px 16px;cursor:pointer;transition:background .2s,color .2s}
+  .filters button:hover{color:var(--ink)}
+  .filters button[aria-pressed="true"]{background:var(--green);color:#fff}
+  .pubs{list-style:none;margin:0;padding:0}
+  .pub{display:grid;grid-template-columns:70px 1fr;gap:18px;padding:18px 0;border-top:1px solid var(--line)}
+  .pub:last-child{border-bottom:1px solid var(--line)}
   .pub[hidden]{display:none}
+  .pub .yr{font-family:var(--serif);font-size:20px;color:var(--green);line-height:1.35}
+  .pub .title{font-weight:600;color:var(--ink);font-size:16px;line-height:1.45}
+  .pub .authors{font-size:14px;margin:4px 0 2px}
+  .pub .authors b{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--green-line);text-underline-offset:3px}
+  .pub .venue{font-size:14px;color:var(--green-deep);font-style:italic}
+  .pub .kind{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:10px;font-style:normal}
+  .pub .doi{font-size:13px;font-weight:600;margin-left:6px;font-style:normal}
+  .more{margin-top:18px;font-size:14.5px;color:var(--muted)}
 
-  /* ---------- skills / education ---------- */
-  .grid3{display:grid;grid-template-columns:1.3fr 1fr;gap:48px}
-  .skillgroup{padding:0 0 16px;margin-bottom:16px;border-bottom:1px dashed #D6D6D0}
-  .skillgroup:last-child{border-bottom:0}
-  .skillgroup h4{margin:0 0 8px;font-size:15.5px;color:var(--ink)}
-  .edu{margin-bottom:20px}
-  .edu b{display:block;color:var(--green);font-size:17px}
-  .edu div{color:var(--ink)}
-  .edu small{display:inline-flex;gap:6px;align-items:center;color:var(--muted);font-size:14px}
-  h2.sm{font-size:24px;margin-top:8px}
+  /* Skills & education */
+  .skills{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .sk{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+  .sk h3{font-size:17px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+  .sk h3 .ico{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--green-tint);color:var(--green)}
+  .sk h3 .ico svg{width:16px;height:16px}
+  .sk p{margin:0;font-size:14.5px;line-height:1.85;display:flex;flex-wrap:wrap}
+  .sk p span{white-space:nowrap}
+  .sk p span:not(:last-child)::after{content:"·";color:var(--green-line);margin:0 8px}
+  .sk.wide{grid-column:1/-1;background:var(--green-tint);border-color:var(--green-line)}
 
-  /* ---------- contact ---------- */
-  .contact{margin-top:72px;background:var(--green);color:#EEF2E6}
-  .contact .wrap{padding-top:56px;padding-bottom:56px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
-  .contact h2{color:#fff;border-color:rgba(255,255,255,.5)}
-  .contact p{margin:0;font-size:17px;max-width:520px}
-  .contact .actions .btn{border-color:#fff;color:#fff}
-  .contact .actions .btn:hover{background:#fff;color:var(--green)}
-  .contact .actions .btn.primary{background:#fff;color:var(--green)}
-  footer{background:var(--green-dark);color:#C9D3B6;font-size:13.5px}
-  footer .wrap{padding-top:16px;padding-bottom:16px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .edu{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px}
+  .edu div{border-top:3px solid var(--green);padding-top:14px}
+  .edu .when{display:block;margin-bottom:6px}
+  .edu b{display:block;font-family:var(--serif);font-weight:600;color:var(--ink);font-size:18px;line-height:1.3}
+  .edu small{display:block;font-size:14px;color:var(--muted);margin-top:4px;line-height:1.5}
+  .misc{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .misc h3{font-size:17px;margin-bottom:4px}
+  .misc p{margin:0;font-size:15px}
 
-  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  /* Contact */
+  .contact{background:var(--green-ink);color:#DCE4CC;border-radius:22px;padding:44px 44px 40px;position:relative;overflow:hidden}
+  .contact::after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;border:40px solid rgba(255,255,255,.05)}
+  .contact .eyebrow{color:#B9C79F}
+  .contact .eyebrow::after{background:rgba(255,255,255,.2)}
+  .contact h2{color:#fff;margin-bottom:12px}
+  .contact p{margin:0 0 26px;max-width:520px}
+  .btns{display:flex;flex-wrap:wrap;gap:10px;position:relative;z-index:1}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-weight:600;font-size:14.5px;color:#fff;border:1px solid rgba(255,255,255,.35);transition:background .2s,color .2s}
+  .btn:hover{background:#fff;color:var(--green-ink);text-decoration:none}
+  .btn.solid{background:#fff;color:var(--green-ink);border-color:#fff}
+  .btn.solid:hover{background:var(--green-tint)}
+  .btn svg{width:16px;height:16px}
+  footer{padding:28px 0 0;font-size:13.5px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
   .reveal.in{opacity:1;transform:none}
-  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.dot{animation:none}html{scroll-behavior:auto}}
 
-  /* ---------- responsive ---------- */
-  @media (max-width:860px){
-    .hero{padding-top:40px}
-    .hero .wrap{grid-template-columns:1fr;gap:28px}
-    .portrait{grid-row:1;justify-self:start}
-    .portrait img{width:150px;height:150px;border-width:4px}
-    .facts{display:none}
-    .stats .wrap{grid-template-columns:repeat(2,1fr)}
-    .stat{padding:18px 12px}
-    .stat:nth-child(3){border-left:0;padding-left:0}
-    .grid2,.grid3,.contact .wrap{grid-template-columns:1fr}
-    .grid3{gap:12px}
-    nav ul{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;gap:0;background:var(--bg);border-bottom:1px solid var(--rule);padding:8px 24px 14px}
-    nav ul.open{display:flex}
-    nav ul a{display:block;padding:9px 0}
-    .menu-btn{display:block}
-    .filters .note{margin-left:0;width:100%}
+  /* ================= RESPONSIVE ================= */
+  @media (max-width:1100px){ main{padding:56px 40px 32px} .stats{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:900px){
+    .layout{display:block}
+    aside{display:contents}
+    .profile{background:var(--green);color:#E9EEDF;padding:32px 22px 26px;display:grid;grid-template-columns:96px 1fr;gap:4px 18px;align-items:center;
+             background-image:radial-gradient(circle at 20% 0%,rgba(255,255,255,.10),transparent 55%)}
+    .profile img{width:96px;height:96px;border-width:3px;grid-row:1/4}
+    .profile h1{margin:0;font-size:25px}
+    .profile .role{font-size:13.5px}
+    .profile .loc{margin:2px 0 0}
+    nav{position:sticky;top:0;z-index:20;margin:0;background:var(--green-ink);overflow-x:auto;scrollbar-width:none}
+    nav::-webkit-scrollbar{display:none}
+    nav ol{display:flex;gap:4px;padding:0 14px;white-space:nowrap}
+    nav a{padding:13px 10px;font-size:14px;gap:0}
+    nav a .n,nav a .bar{display:none}
+    nav a.active{box-shadow:inset 0 -3px 0 #fff}
+    .social{display:none}
+    main{padding:36px 22px 24px}
+    section{scroll-margin-top:56px;padding-bottom:44px}
+    h2{font-size:30px}
+    .lead{font-size:22px}
+    .cards,.skills,.edu,.misc{grid-template-columns:1fr}
     .pub{grid-template-columns:1fr;gap:2px}
+    .contact{padding:32px 24px}
   }
 </style>
 </head>
 <body>
 
-<!-- Inline icon sprite -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-mail" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M3 5h18v14H3z"/><path fill="none" stroke="currentColor" stroke-width="2" d="m3 6 9 7 9-7"/></symbol>
   <symbol id="i-gh" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></symbol>
   <symbol id="i-in" viewBox="0 0 24 24"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.7-2.79-1.7 0-1.96 1.33-1.96 2.7V21h-4z"/></symbol>
   <symbol id="i-sch" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3Zm-6.5 9.45v3.8C7.2 18 9.5 19 12 19s4.8-1 6.5-2.75v-3.8L12 16l-6.5-3.55Z"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></symbol>
-  <symbol id="i-globe" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-10 10h20M12 2c2.8 3 4 6.4 4 10s-1.2 7-4 10c-2.8-3-4-6.4-4-10s1.2-7 4-10Z"/></symbol>
-  <symbol id="i-cal" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M4 5h16v15H4zM4 10h16M8 3v4M16 3v4"/></symbol>
-  <symbol id="i-lang" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M4 5h9M8.5 3v2M6 5c.6 3.5 3 6 6 7.5M11 5c-.6 3.5-3 6.5-6.5 8M13 21l4-9 4 9M14.5 18h5"/></symbol>
-  <symbol id="i-quote" viewBox="0 0 24 24"><path fill="currentColor" d="M3 11c0-4 2.4-6.6 6-7v2.6C7 7.2 6 8.6 6 11h3v8H3zm11 0c0-4 2.4-6.6 6-7v2.6c-2 .6-3 2-3 4.4h3v8h-6z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m8 7-5 5 5 5M16 7l5 5-5 5"/></symbol>
+  <symbol id="i-brain" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 4a3 3 0 0 0-5.7 1.3A3 3 0 0 0 4 10a3 3 0 0 0 1 5.6A3 3 0 0 0 9 19a3 3 0 0 0 3 1V4Zm0 0a3 3 0 0 1 5.7 1.3A3 3 0 0 1 20 10a3 3 0 0 1-1 5.6A3 3 0 0 1 15 19a3 3 0 0 1-3 1"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Zm0 0v18M4 7.5l8 4.5 8-4.5"/></symbol>
+  <symbol id="i-server" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M4 4h16v6H4zM4 14h16v6H4z"/><path stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="M8 7h.01M8 17h.01"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<nav>
-  <div class="wrap">
-    <a class="mono" href="#top">QG</a>
-    <button class="menu-btn" aria-label="Open menu" aria-expanded="false">&#9776;</button>
-    <ul id="menu">
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#publications">Publications</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </div>
-</nav>
+<div class="layout">
 
-<header class="hero" id="top">
-  <div class="wrap">
-    <div>
+  <!-- ================= SIDEBAR: photo, name, navigation ================= -->
+  <aside>
+    <div class="profile">
+      <img src="assets/profile.jpg" alt="Portrait of Qinghua Guo" width="148" height="148">
       <h1>Qinghua Guo</h1>
-      <p class="tagline">AI, Computer Vision &amp; Machine Learning</p>
-      <p class="summary">
-        PhD researcher at <strong>Eindhoven University of Technology</strong> with nearly five years of
-        computer-vision work: multi-object detection, tracking and spatiotemporal behaviour recognition on
-        real-world farm video. I take models from raw footage to benchmarks and, increasingly, to
-        <strong>deployed, monitored services</strong> &mdash; FastAPI, Docker, CI/CD, Prometheus, Grafana and OpenTelemetry.
-      </p>
-      <!-- <p class="summary"><strong>Open to CV / ML / AI engineering roles in the Netherlands.</strong></p> -->
-      <p class="quote"><svg width="18" height="18"><use href="#i-quote"/></svg>Curious by nature, structured in execution, energized by collaboration.</p>
-      <div class="actions">
-        <a class="btn primary" href="mailto:eudora826@gmail.com"><svg><use href="#i-mail"/></svg>Email me</a>
-        <a class="btn" href="https://github.com/Eudora826" target="_blank" rel="noopener"><svg><use href="#i-gh"/></svg>GitHub</a>
-        <a class="btn" href="https://scholar.google.com/citations?user=bpBROL0AAAAJ&amp;hl=en" target="_blank" rel="noopener"><svg><use href="#i-sch"/></svg>Google Scholar</a>
-        <a class="btn" href="https://www.linkedin.com/in/qinghua-guo/" target="_blank" rel="noopener"><svg><use href="#i-in"/></svg>LinkedIn</a>
+      <p class="role">Computer Vision &amp; Machine Learning<br>PhD researcher · TU Eindhoven</p>
+      <p class="loc"><svg><use href="#i-pin"/></svg>Eindhoven, the Netherlands</p>
+    </div>
+
+    <nav aria-label="Sections">
+      <ol>
+        <li><a href="#about"><span class="n">01</span><span class="bar"></span>About</a></li>
+        <li><a href="#experience"><span class="n">02</span><span class="bar"></span>Experience</a></li>
+        <li><a href="#projects"><span class="n">03</span><span class="bar"></span>Projects</a></li>
+        <li><a href="#publications"><span class="n">04</span><span class="bar"></span>Publications</a></li>
+        <li><a href="#skills"><span class="n">05</span><span class="bar"></span>Skills &amp; Education</a></li>
+        <li><a href="#contact"><span class="n">06</span><span class="bar"></span>Contact</a></li>
+      </ol>
+    </nav>
+
+    <div class="social">
+      <a href="mailto:eudora826@gmail.com" aria-label="Email"><svg><use href="#i-mail"/></svg></a>
+      <a href="https://github.com/Eudora826" target="_blank" rel="noopener" aria-label="GitHub"><svg><use href="#i-gh"/></svg></a>
+      <a href="https://scholar.google.com/citations?user=bpBROL0AAAAJ&amp;hl=en" target="_blank" rel="noopener" aria-label="Google Scholar"><svg><use href="#i-sch"/></svg></a>
+      <a href="https://www.linkedin.com/in/qinghua-guo/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg><use href="#i-in"/></svg></a>
+    </div>
+  </aside>
+
+  <main>
+
+    <!-- ================= 01 ABOUT ================= -->
+    <section id="about" class="about">
+      <p class="eyebrow">01 · About</p>
+      <p class="lead">I build computer vision systems for <em>real-world video</em> &mdash; detection, tracking and behaviour recognition &mdash; and the services that keep them running in production.</p>
+      <p>I'm a PhD researcher at Eindhoven University of Technology with nearly five years of computer-vision work on farm video, in the NWO IMAGEN consortium with Wageningen University, Utrecht University, Topigs Norsvin and Hendrix Genetics. I take models from raw footage to benchmarks and, increasingly, to deployed and monitored services with FastAPI, Docker, CI/CD, Prometheus, Grafana and OpenTelemetry.</p>
+      <p class="status"><span class="dot"></span>Open to CV / ML / AI engineering roles in the Netherlands · EU permanent resident</p>
+      <p class="motto">&ldquo;Curious by nature, structured in execution, energized by collaboration.&rdquo;</p>
+      <div class="stats">
+        <div class="stat"><b>88.6%</b><span>MOTA for multi-pig tracking</span></div>
+        <div class="stat"><b>48.9 FPS</b><span>real-time tracking with re-ID</span></div>
+        <div class="stat"><b>22K+</b><span>annotated frames benchmarked</span></div>
+        <div class="stat"><b>+14.8 pt</b><span>Top-1 on ear &amp; tail biting (62.5 → 77.3%)</span></div>
       </div>
-    </div>
-    <div class="portrait">
-      <img src="assets/profile.jpg" alt="Portrait of Qinghua Guo" width="260" height="260">
-      <ul class="facts">
-        <li><svg><use href="#i-pin"/></svg>Eindhoven, the Netherlands</li>
-        <!-- <li><svg><use href="#i-globe"/></svg>EU permanent resident, full work authorization in NL</li> -->
-        <li><svg><use href="#i-lang"/></svg>English · 中文 · Nederlands (A2)</li>
-      </ul>
-    </div>
-  </div>
-</header>
+    </section>
 
-<!-- <div class="stats">
-  <div class="wrap">
-    <div class="stat"><b>88.6%</b><span>MOTA for multi-pig tracking</span></div>
-    <div class="stat"><b>48.9 FPS</b><span>real-time tracking with re-ID</span></div>
-    <div class="stat"><b>22K+</b><span>annotated frames benchmarked</span></div>
-    <div class="stat"><b>62.5 → 77.3%</b><span>Top-1 on ear &amp; tail biting</span></div>
-  </div>
-</div> -->
+    <!-- ================= 02 EXPERIENCE ================= -->
+    <section id="experience" class="reveal">
+      <p class="eyebrow">02 · Experience</p>
+      <h2>Where I've worked</h2>
+      <ol class="timeline">
+        <li class="tl">
+          <span class="when">2022.1 – 2026.9</span>
+          <h3>PhD researcher, ML / CV &mdash; Camera-based Individual Monitoring in Agriculture</h3>
+          <p class="where">NWO project IMAGEN · TU Eindhoven, NL</p>
+          <ul>
+            <li>Built a multi-object pig tracking pipeline benchmarked on <strong>22K+ annotated frames</strong>, reaching <strong>MOTA 88.6% at 48.9 FPS</strong> with re-ID association.</li>
+            <li>Built keypoint-guided spatiotemporal models (SlowFast, Transformer) for ear- and tail-biting recognition; a head-centric input representation with geometric correction raised <strong>Top-1 accuracy from 62.5% to 77.3%</strong>, validated by ablation studies.</li>
+            <li>Built automated Python data pipelines over large-scale video &mdash; frame extraction, quality filtering and dataset construction &mdash; designed for reliability and reproducibility.</li>
+            <li>Ran containerized multi-GPU processing on HPC (Snellius / SURF) with SLURM batch jobs and automated experiment configuration and tracking.</li>
+            <li>Designed a multi-camera tracking strategy to strengthen identity association across views.</li>
+          </ul>
+          <h4>Collaboration &amp; teaching</h4>
+          <ul>
+            <li>Turned open-ended requirements from farm and industry partners into concrete, testable tasks with defined metrics and data-quality criteria.</li>
+            <li>Supervised a master internship and a master thesis on computer vision for livestock monitoring &mdash; both successfully defended.</li>
+            <li>Gave guest lectures and assisted assignments on object detection and tracking in Wageningen Institute of Animal Sciences (WIAS) courses.</li>
+          </ul>
+        </li>
+        <li class="tl">
+          <span class="when">2021.2 – 2021.11</span>
+          <h3>Master thesis &mdash; Video-based Animal Detection and Tracking</h3>
+          <p class="where">TU Eindhoven, NL</p>
+          <ul>
+            <li>Built and annotated multi-class pig and laying-hen video datasets (thousands of frames); wrote annotation tutorials and ran workshops so annotators shared one labelling standard.</li>
+            <li>Benchmarked one-shot and two-stage detection and tracking methods, and proposed an identity association algorithm that reduces identity switches.</li>
+          </ul>
+        </li>
+        <li class="tl">
+          <span class="when">2020.7 – 2020.8</span>
+          <h3>Master internship &mdash; Atrial Fibrillation Classification Using CNNs</h3>
+          <p class="where">TU Eindhoven, NL</p>
+          <ul>
+            <li>Explored CNNs for atrial fibrillation classification on graph representations of ECG recordings, converting 1D signals to 2D via STFT, MSE and wavelet transforms.</li>
+          </ul>
+        </li>
+      </ol>
+    </section>
 
-<main>
+    <!-- ================= 03 PROJECTS ================= -->
+    <section id="projects" class="reveal">
+      <p class="eyebrow">03 · Projects</p>
+      <h2>Things I've built</h2>
+      <div class="cards">
 
-<!-- ================= EXPERIENCE ================= -->
-<section class="block reveal" id="experience">
-  <div class="wrap">
-    <h2>Experience</h2>
+        <article class="card">
+          <div class="top"><span class="ctx">Personal · 2026</span><span class="arrow"><svg class="i"><use href="#i-arrow"/></svg></span></div>
+          <h3><a href="https://github.com/Eudora826/YOLO26-monitoring-Azure" target="_blank" rel="noopener">YOLO26 Inference on Azure</a><span class="flag">In progress</span></h3>
+          <p>Object detection as a service with the observability a real deployment needs. Runs YOLOv8 + PyTorch under Docker Compose today; moving to YOLO26 with ONNX Runtime on Azure Container Apps.</p>
+          <ul>
+            <li>RED metrics, latency percentiles and drift signals in Grafana</li>
+            <li>Per-request OpenTelemetry traces through Jaeger</li>
+            <li>Async jobs with Azure Blob storage and a synthetic load generator</li>
+          </ul>
+          <div class="tags"><span>FastAPI</span><span>ONNX</span><span>Azure</span><span>Prometheus</span><span>OpenTelemetry</span></div>
+        </article>
 
-    <article class="entry">
-      <h3>Camera-based Individual Monitoring in Agriculture</h3>
-      <div class="meta">
-        <i>PhD researcher, ML/CV &middot; NWO project IMAGEN</i>
-        <span class="ic"><svg><use href="#i-cal"/></svg>2022.1 – 2026.9</span>
-        <span class="ic"><svg><use href="#i-pin"/></svg>TU Eindhoven, NL</span>
+        <article class="card">
+          <div class="top"><span class="ctx">Personal · 2026</span><span class="arrow"><svg class="i"><use href="#i-arrow"/></svg></span></div>
+          <h3><a href="https://github.com/Eudora826/YOLOv8-FastAPI-monitoring" target="_blank" rel="noopener">Monitored ML Inference Service</a></h3>
+          <p>YOLOv8 served by FastAPI and instrumented end to end. One command brings up the service, its monitoring stack and enough synthetic traffic to make the dashboards meaningful.</p>
+          <ul>
+            <li>Custom latency histogram buckets measured for the 60–80 ms band</li>
+            <li>Grafana dashboards, alerting rules and tracing</li>
+            <li>Docker image and GitHub Actions CI/CD</li>
+          </ul>
+          <div class="tags"><span>MLOps</span><span>Observability</span><span>YOLOv8</span><span>Docker</span></div>
+        </article>
+
+        <article class="card">
+          <div class="top"><span class="ctx">Hack4her hackathon · 2026</span><span class="arrow"><svg class="i"><use href="#i-arrow"/></svg></span></div>
+          <h3><a href="https://github.com/Eudora826/safelanding" target="_blank" rel="noopener">SafeLanding &mdash; LLM Rental Fraud Detection</a></h3>
+          <p>Checks a suspicious rental message, link or screenshot and explains the risk in the user's own language, for non-native speakers in the Netherlands.</p>
+          <ul>
+            <li>LLM behind FastAPI with schema-validated output (Pydantic) and OCR</li>
+            <li>Dependency-free TF-IDF retrieval over a SQLite threat database</li>
+            <li>Trilingual UI (EN / 中文 / NL), 18 integration tests</li>
+          </ul>
+          <div class="tags"><span>LLM</span><span>FastAPI</span><span>SQLite</span><span>OCR</span></div>
+        </article>
+
+        <article class="card">
+          <div class="top"><span class="ctx">Personal · 2026</span><span class="arrow"><svg class="i"><use href="#i-arrow"/></svg></span></div>
+          <h3><a href="https://github.com/Eudora826/YOLOv8-FastAPI" target="_blank" rel="noopener">Containerized YOLOv8 Detection API</a></h3>
+          <p>The starting point for the services above: a clean object-detection REST API built with FastAPI and YOLOv8, with tests and a CI pipeline.</p>
+          <ul>
+            <li>Image upload &rarr; JSON detections endpoint</li>
+            <li>Dockerfile and GitHub Actions workflow</li>
+            <li>pytest suite for the API</li>
+          </ul>
+          <div class="tags"><span>YOLOv8</span><span>FastAPI</span><span>Docker</span><span>pytest</span></div>
+        </article>
+
       </div>
-      <div class="sub">Technical contributions</div>
-      <ul>
-        <li>Built a multi-object pig tracking pipeline benchmarked on <b>22K+ annotated frames</b>, reaching <b>MOTA 88.6% at 48.9 FPS</b> with re-ID association.</li>
-        <li>Built keypoint-guided spatiotemporal models (SlowFast, Transformer) for ear- and tail-biting recognition; a head-centric input representation with geometric correction raised <b>Top-1 accuracy from 62.5% to 77.3%</b>, validated by ablation studies.</li>
-        <li>Built automated Python data pipelines over large-scale video &mdash; frame extraction, quality filtering and dataset construction &mdash; designed for reliability and reproducibility.</li>
-        <li>Ran containerized multi-GPU processing on HPC (Snellius / SURF) with SLURM batch jobs and automated experiment configuration and tracking.</li>
-        <li>Designed a multi-camera tracking strategy to strengthen identity association across views.</li>
-      </ul>
-      <div class="sub">Collaboration &amp; teaching</div>
-      <ul>
-        <li>Worked in the NWO IMAGEN consortium with Wageningen University, Utrecht University and industry partners <b>Topigs Norsvin</b> and <b>Hendrix Genetics</b> on commercial-scale agricultural AI.</li>
-        <li>Turned open-ended requirements from farm and industry partners into concrete, testable tasks with defined metrics and data-quality criteria.</li>
-        <li>Supervised a master internship and a master thesis on computer vision for livestock monitoring &mdash; both successfully defended.</li>
-        <li>Gave guest lectures and assisted assignments on object detection and tracking in Wageningen Institute of Animal Sciences (WIAS) courses.</li>
-      </ul>
-    </article>
+    </section>
 
-    <article class="entry">
-      <h3>Video-based Animal Detection and Tracking</h3>
-      <div class="meta">
-        <i>Master thesis &middot; TU/e</i>
-        <span class="ic"><svg><use href="#i-cal"/></svg>2021.2 – 2021.11</span>
-        <span class="ic"><svg><use href="#i-pin"/></svg>Eindhoven, NL</span>
+    <!-- ================= 04 PUBLICATIONS ================= -->
+    <section id="publications" class="reveal">
+      <p class="eyebrow">04 · Publications</p>
+      <h2>Research</h2>
+      <div class="filters" role="group" aria-label="Filter publications">
+        <button type="button" data-f="all" aria-pressed="true">All</button>
+        <button type="button" data-f="journal" aria-pressed="false">Journal</button>
+        <button type="button" data-f="conference" aria-pressed="false">Conference</button>
+        <button type="button" data-f="talk" aria-pressed="false">Abstracts &amp; talks</button>
       </div>
-      <ul>
-        <li>Built and annotated multi-class pig and laying-hen video datasets (thousands of frames); wrote annotation tutorials and ran workshops so annotators shared one labelling standard.</li>
-        <li>Benchmarked one-shot and two-stage detection and tracking methods, and proposed an identity association algorithm that reduces identity switches.</li>
-      </ul>
-    </article>
 
-    <article class="entry">
-      <h3>Atrial Fibrillation Classification Using CNNs</h3>
-      <div class="meta">
-        <i>Master internship &middot; TU/e</i>
-        <span class="ic"><svg><use href="#i-cal"/></svg>2020.7 – 2020.8</span>
-        <span class="ic"><svg><use href="#i-pin"/></svg>Eindhoven, NL</span>
+      <ol class="pubs">
+        <li class="pub" data-type="conference">
+          <div class="yr">2026</div>
+          <div>
+            <div class="title">MCMOT: Multi-Camera Assisted Multi-Object Tracking for Automated Pig Monitoring</div>
+            <div class="authors"><b>Q. Guo</b>, D. Pei, Y. Sun, P. P. J. H. Langenhuizen, J. E. Bolhuis, P. Bijma, P. H. N. de With</div>
+            <div class="venue"><span class="kind">Conference</span>21st Int. Joint Conf. on Computer Vision, Imaging and Computer Graphics Theory and Applications (VISAPP 2026)</div>
+          </div>
+        </li>
+        <li class="pub" data-type="journal">
+          <div class="yr">2025</div>
+          <div>
+            <div class="title">Behaviour recognition of tail and ear biting in pigs using AI-based computer vision</div>
+            <div class="authors"><b>Q. Guo</b>, C. Orsini, P. P. J. H. Langenhuizen, Y. Sun, S. Huo, I. Reimert, J. E. Bolhuis, P. Bijma, P. H. N. de With</div>
+            <div class="venue"><span class="kind">Journal</span>Smart Agricultural Technology, 2025</div>
+          </div>
+        </li>
+        <li class="pub" data-type="conference">
+          <div class="yr">2025</div>
+          <div>
+            <div class="title">Multi-Object Keypoint Detection and Pose Estimation for Pigs</div>
+            <div class="authors"><b>Q. Guo</b>, D. Pei, Y. Sun, P. P. J. H. Langenhuizen, C. A. E. M. Orsini, K. H. Martinsen, Ø. Nordbø, J. E. Bolhuis, P. Bijma, P. H. N. de With</div>
+            <div class="venue"><span class="kind">Conference</span>VISAPP 2025, Vol. 3, pp. 466–474, SciTePress <a class="doi" href="https://doi.org/10.5220/0013170100003912" target="_blank" rel="noopener">DOI ↗</a></div>
+          </div>
+        </li>
+        <li class="pub" data-type="talk">
+          <div class="yr">2025</div>
+          <div>
+            <div class="title">Automated video-based recognition of tail and ear biting in pigs</div>
+            <div class="authors"><b>Q. Guo</b>, C. A. E. M. Orsini, P. P. J. H. Langenhuizen, Y. Sun, S. Huo, I. Reimert, J. E. Bolhuis, P. Bijma</div>
+            <div class="venue"><span class="kind">Abstract</span>58th Congress of the International Society for Applied Ethology (ISAE 2025), p. 268</div>
+          </div>
+        </li>
+        <li class="pub" data-type="journal">
+          <div class="yr">2023</div>
+          <div>
+            <div class="title">Enhanced camera-based individual pig detection and tracking for smart pig farms</div>
+            <div class="authors"><b>Q. Guo</b>, Y. Sun, C. Orsini, J. E. Bolhuis, J. de Vlieg, P. Bijma, P. H. N. de With</div>
+            <div class="venue"><span class="kind">Journal</span>Computers and Electronics in Agriculture, 211, 108009 <a class="doi" href="https://doi.org/10.1016/j.compag.2023.108009" target="_blank" rel="noopener">DOI ↗</a></div>
+          </div>
+        </li>
+        <li class="pub" data-type="journal">
+          <div class="yr">2022</div>
+          <div>
+            <div class="title">Double-Camera Fusion System for Animal-Position Awareness in Farming Pens</div>
+            <div class="authors">S. Huo, Y. Sun, <b>Q. Guo</b>, T. Tan, J. E. Bolhuis, P. Bijma, P. H. N. de With</div>
+            <div class="venue"><span class="kind">Journal</span>Foods, 12(1), 84 <a class="doi" href="https://doi.org/10.3390/foods12010084" target="_blank" rel="noopener">DOI ↗</a></div>
+          </div>
+        </li>
+        <li class="pub" data-type="conference">
+          <div class="yr">2022</div>
+          <div>
+            <div class="title">Video-based Detection and Tracking with Improved Re-Identification Association for Pigs and Laying Hens in Farms</div>
+            <div class="authors"><b>Q. Guo</b>, Y. Sun, L. Min, A. van Putten, E. Knol, B. Visser, T. Rodenburg, J. Bolhuis, P. Bijma, P. H. N. de With</div>
+            <div class="venue"><span class="kind">Conference</span>VISAPP 2022, Vol. 4, pp. 69–78, SciTePress <a class="doi" href="https://doi.org/10.5220/0010788100003124" target="_blank" rel="noopener">DOI ↗</a></div>
+          </div>
+        </li>
+        <li class="pub" data-type="talk">
+          <div class="yr">2022</div>
+          <div>
+            <div class="title">Video-based Detection and Tracking with Improved Re-Identification Association for Pigs and Laying Hens in Farms</div>
+            <div class="authors"><b>Q. Guo</b>, Y. Sun, L. Min, A. van Putten, E. Knol, B. Visser, T. Rodenburg, J. Bolhuis, P. Bijma, P. H. N. de With</div>
+            <div class="venue"><span class="kind">Poster</span>Netherlands Conference on Computer Vision (NCCV 2022)</div>
+          </div>
+        </li>
+      </ol>
+      <p class="more">Full and up-to-date list on <a href="https://scholar.google.com/citations?user=bpBROL0AAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar ↗</a></p>
+    </section>
+
+    <!-- ================= 05 SKILLS & EDUCATION ================= -->
+    <section id="skills" class="reveal">
+      <p class="eyebrow">05 · Skills &amp; Education</p>
+      <h2>Toolbox</h2>
+      <div class="skills">
+        <div class="sk wide">
+          <h3><span class="ico"><svg><use href="#i-eye"/></svg></span>ML areas</h3>
+          <p><span>Object detection</span><span>Multi-object tracking</span><span>Action recognition</span><span>Re-identification</span><span>Pose estimation</span><span>Classification</span><span>Data annotation</span><span>LLM applications</span></p>
+        </div>
+        <div class="sk">
+          <h3><span class="ico"><svg><use href="#i-brain"/></svg></span>ML frameworks</h3>
+          <p><span>PyTorch</span><span>TensorFlow</span><span>OpenCV</span><span>Ultralytics (YOLO)</span><span>TensorBoard</span><span>NumPy</span><span>Pandas</span><span>scikit-learn</span></p>
+        </div>
+        <div class="sk">
+          <h3><span class="ico"><svg><use href="#i-box"/></svg></span>Engineering &amp; MLOps</h3>
+          <p><span>FastAPI</span><span>Docker</span><span>GitHub Actions</span><span>Prometheus</span><span>Grafana</span><span>OpenTelemetry</span><span>Pydantic</span><span>Git</span></p>
+        </div>
+        <div class="sk">
+          <h3><span class="ico"><svg><use href="#i-code"/></svg></span>Languages</h3>
+          <p><span>Python</span><span>Bash</span><span>MATLAB</span></p>
+        </div>
+        <div class="sk">
+          <h3><span class="ico"><svg><use href="#i-server"/></svg></span>Compute &amp; tooling</h3>
+          <p><span>Linux</span><span>SLURM / HPC</span><span>Snellius (SURF)</span><span>Multi-GPU</span><span>CVAT</span><span>Anaconda</span><span>LaTeX</span></p>
+        </div>
       </div>
-      <ul>
-        <li>Explored CNNs for atrial fibrillation classification on graph representations of ECG recordings, converting 1D signals to 2D via STFT, MSE and wavelet transforms.</li>
-      </ul>
-    </article>
-  </div>
-</section>
 
-<!-- ================= PROJECTS ================= -->
-<section class="block reveal" id="projects">
-  <div class="wrap">
-    <h2>Projects</h2>
-    <div class="grid2">
+      <h2 style="margin-top:52px">Education</h2>
+      <div class="edu">
+        <div><span class="when">2022 – 2026</span><b>PhD, Electrical Engineering</b><small>Eindhoven University of Technology, NL</small></div>
+        <div><span class="when">2019 – 2021</span><b>MSc, Electrical Engineering</b><small>Eindhoven University of Technology, NL</small></div>
+        <div><span class="when">2015 – 2019</span><b>BSc, Electrical Engineering</b><small>Double degree · HZ University of Applied Sciences, NL &amp; Shanghai Maritime University, China</small></div>
+      </div>
+      <div class="misc">
+        <div><h3>Languages</h3><p>English (professional) · Chinese (native) · Dutch (A2, actively improving)</p></div>
+        <div><h3>Outside work</h3><p>Gym &amp; cycling · Cooking &amp; baking · Photography &amp; filming</p></div>
+      </div>
+    </section>
 
-      <article class="card">
-        <div class="kicker"><span>Personal project · 2026</span><span class="badge">In progress</span></div>
-        <h3><a href="https://github.com/Eudora826/YOLO26-monitoring-Azure" target="_blank" rel="noopener">YOLO26 Inference on Azure</a></h3>
-        <p>Object detection as a service with the observability a real deployment needs. Currently YOLOv8 + PyTorch under Docker Compose; moving to YOLO26 with ONNX Runtime and Azure Container Apps.</p>
-        <ul>
-          <li>RED metrics, latency percentiles and drift signals in a provisioned Grafana dashboard</li>
-          <li>Per-request OpenTelemetry traces through Jaeger: decode vs inference vs annotate</li>
-          <li>Async jobs with Azure Blob storage (Azurite locally) and a synthetic load generator</li>
-        </ul>
-        <div class="pills"><span class="pill g">FastAPI</span><span class="pill g">ONNX Runtime</span><span class="pill">Azure</span><span class="pill">Prometheus</span><span class="pill">Grafana</span><span class="pill">OpenTelemetry</span></div>
-        <a class="repo" href="https://github.com/Eudora826/YOLO26-monitoring-Azure" target="_blank" rel="noopener"><svg><use href="#i-gh"/></svg>Eudora826/YOLO26-monitoring-Azure</a>
-      </article>
-
-      <article class="card">
-        <div class="kicker"><span>Personal project · 2026</span></div>
-        <h3><a href="https://github.com/Eudora826/YOLOv8-FastAPI-monitoring" target="_blank" rel="noopener">Monitored ML Inference Service</a></h3>
-        <p>YOLOv8 served by FastAPI and instrumented end to end. One command brings up the service, its monitoring stack and enough synthetic traffic to make the dashboards meaningful.</p>
-        <ul>
-          <li>Prometheus metrics with custom histogram buckets measured for the 60–80 ms latency band</li>
-          <li>Grafana dashboards, alerting rules and OpenTelemetry tracing</li>
-          <li>Docker image and GitHub Actions CI/CD</li>
-        </ul>
-        <div class="pills"><span class="pill g">MLOps</span><span class="pill g">Observability</span><span class="pill">YOLOv8</span><span class="pill">Docker</span><span class="pill">GitHub Actions</span></div>
-        <a class="repo" href="https://github.com/Eudora826/YOLOv8-FastAPI-monitoring" target="_blank" rel="noopener"><svg><use href="#i-gh"/></svg>Eudora826/YOLOv8-FastAPI-monitoring</a>
-      </article>
-
-      <article class="card">
-        <div class="kicker"><span>Hack4her hackathon · 2026.6</span></div>
-        <h3><a href="https://github.com/Eudora826/safelanding" target="_blank" rel="noopener">SafeLanding &mdash; LLM-Powered Rental Fraud Detection</a></h3>
-        <p>A full-stack assistant that checks a suspicious rental message, link or screenshot and explains the risk in the user's own language, for non-native speakers in the Netherlands.</p>
-        <ul>
-          <li>LLM behind FastAPI with schema-validated structured output (Pydantic), plus screenshot OCR</li>
-          <li>Dependency-free TF-IDF retrieval over a SQLite community threat database, fused into one verdict</li>
-          <li>Trilingual UI (EN / 中文 / NL), 10 REST endpoints, 18 integration tests</li>
-        </ul>
-        <div class="pills"><span class="pill g">LLM</span><span class="pill g">FastAPI</span><span class="pill">SQLite</span><span class="pill">OCR</span><span class="pill">Docker</span></div>
-        <a class="repo" href="https://github.com/Eudora826/safelanding" target="_blank" rel="noopener"><svg><use href="#i-gh"/></svg>Eudora826/safelanding</a>
-      </article>
-
-      <article class="card">
-        <div class="kicker"><span>Personal project · 2026</span></div>
-        <h3><a href="https://github.com/Eudora826/YOLOv8-FastAPI" target="_blank" rel="noopener">Containerized YOLOv8 Detection API</a></h3>
-        <p>The starting point for the services above: a clean, containerized object-detection REST API built with FastAPI and YOLOv8, with tests and a CI pipeline.</p>
-        <ul>
-          <li>Image upload &rarr; JSON detections endpoint</li>
-          <li>Dockerfile and GitHub Actions workflow</li>
-          <li>pytest suite for the API</li>
-        </ul>
-        <div class="pills"><span class="pill g">YOLOv8</span><span class="pill g">FastAPI</span><span class="pill">Docker</span><span class="pill">pytest</span></div>
-        <a class="repo" href="https://github.com/Eudora826/YOLOv8-FastAPI" target="_blank" rel="noopener"><svg><use href="#i-gh"/></svg>Eudora826/YOLOv8-FastAPI</a>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ================= PUBLICATIONS ================= -->
-<section class="block reveal" id="publications">
-  <div class="wrap">
-    <h2>Publications</h2>
-    <div class="filters" role="group" aria-label="Filter publications">
-      <button type="button" data-f="all" aria-pressed="true">All</button>
-      <button type="button" data-f="journal" aria-pressed="false">Journal</button>
-      <button type="button" data-f="conference" aria-pressed="false">Conference</button>
-      <button type="button" data-f="talk" aria-pressed="false">Abstracts &amp; talks</button>
-      <span class="note">Full list on <a href="https://scholar.google.com/citations?user=bpBROL0AAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a></span>
-    </div>
-
-    <ol class="pubs">
-      <li class="pub" data-type="conference">
-        <div class="yr">2026</div>
-        <div>
-          <div class="title">MCMOT: Multi-Camera Assisted Multi-Object Tracking for Automated Pig Monitoring</div>
-          <div class="authors"><b>Q. Guo</b>, D. Pei, Y. Sun, P. P. J. H. Langenhuizen, J. E. Bolhuis, P. Bijma, P. H. N. de With</div>
-          <div class="venue">21st Int. Joint Conf. on Computer Vision, Imaging and Computer Graphics Theory and Applications (VISAPP 2026)</div>
+    <!-- ================= 06 CONTACT ================= -->
+    <section id="contact" class="reveal">
+      <div class="contact">
+        <p class="eyebrow">06 · Contact</p>
+        <h2>Let's talk</h2>
+        <p>I'm looking for computer vision, machine learning and AI engineering roles in the Netherlands. Email is the fastest way to reach me.</p>
+        <div class="btns">
+          <a class="btn solid" href="mailto:eudora826@gmail.com"><svg><use href="#i-mail"/></svg>eudora826@gmail.com</a>
+          <a class="btn" href="https://www.linkedin.com/in/qinghua-guo/" target="_blank" rel="noopener"><svg><use href="#i-in"/></svg>LinkedIn</a>
+          <a class="btn" href="https://github.com/Eudora826" target="_blank" rel="noopener"><svg><use href="#i-gh"/></svg>GitHub</a>
+          <a class="btn" href="https://scholar.google.com/citations?user=bpBROL0AAAAJ&amp;hl=en" target="_blank" rel="noopener"><svg><use href="#i-sch"/></svg>Scholar</a>
         </div>
-      </li>
-      <li class="pub" data-type="journal">
-        <div class="yr">2025</div>
-        <div>
-          <div class="title">Behaviour recognition of tail and ear biting in pigs using AI-based computer vision</div>
-          <div class="authors"><b>Q. Guo</b>, C. Orsini, P. P. J. H. Langenhuizen, Y. Sun, S. Huo, I. Reimert, J. E. Bolhuis, P. Bijma, P. H. N. de With</div>
-          <div class="venue">Smart Agricultural Technology, 2025</div>
-        </div>
-      </li>
-      <li class="pub" data-type="conference">
-        <div class="yr">2025</div>
-        <div>
-          <div class="title">Multi-Object Keypoint Detection and Pose Estimation for Pigs</div>
-          <div class="authors"><b>Q. Guo</b>, D. Pei, Y. Sun, P. P. J. H. Langenhuizen, C. A. E. M. Orsini, K. H. Martinsen, Ø. Nordbø, J. E. Bolhuis, P. Bijma, P. H. N. de With</div>
-          <div class="venue">VISAPP 2025 (20th VISIGRAPP), Vol. 3, pp. 466–474, SciTePress</div>
-          <div class="links"><a href="https://doi.org/10.5220/0013170100003912" target="_blank" rel="noopener">DOI</a></div>
-        </div>
-      </li>
-      <li class="pub" data-type="talk">
-        <div class="yr">2025</div>
-        <div>
-          <div class="title">Automated video-based recognition of tail and ear biting in pigs</div>
-          <div class="authors"><b>Q. Guo</b>, C. A. E. M. Orsini, P. P. J. H. Langenhuizen, Y. Sun, S. Huo, I. Reimert, J. E. Bolhuis, P. Bijma</div>
-          <div class="venue">58th Congress of the International Society for Applied Ethology (ISAE 2025), p. 268</div>
-          <div class="links"><span>Abstract</span></div>
-        </div>
-      </li>
-      <li class="pub" data-type="journal">
-        <div class="yr">2023</div>
-        <div>
-          <div class="title">Enhanced camera-based individual pig detection and tracking for smart pig farms</div>
-          <div class="authors"><b>Q. Guo</b>, Y. Sun, C. Orsini, J. E. Bolhuis, J. de Vlieg, P. Bijma, P. H. N. de With</div>
-          <div class="venue">Computers and Electronics in Agriculture, 211, 108009</div>
-          <div class="links"><a href="https://doi.org/10.1016/j.compag.2023.108009" target="_blank" rel="noopener">DOI</a></div>
-        </div>
-      </li>
-      <li class="pub" data-type="journal">
-        <div class="yr">2022</div>
-        <div>
-          <div class="title">Double-Camera Fusion System for Animal-Position Awareness in Farming Pens</div>
-          <div class="authors">S. Huo, Y. Sun, <b>Q. Guo</b>, T. Tan, J. E. Bolhuis, P. Bijma, P. H. N. de With</div>
-          <div class="venue">Foods, 12(1), 84</div>
-          <div class="links"><a href="https://doi.org/10.3390/foods12010084" target="_blank" rel="noopener">DOI</a></div>
-        </div>
-      </li>
-      <li class="pub" data-type="conference">
-        <div class="yr">2022</div>
-        <div>
-          <div class="title">Video-based Detection and Tracking with Improved Re-Identification Association for Pigs and Laying Hens in Farms</div>
-          <div class="authors"><b>Q. Guo</b>, Y. Sun, L. Min, A. van Putten, E. Knol, B. Visser, T. Rodenburg, J. Bolhuis, P. Bijma, P. H. N. de With</div>
-          <div class="venue">VISAPP 2022 (17th VISIGRAPP), Vol. 4, pp. 69–78, SciTePress</div>
-          <div class="links"><a href="https://doi.org/10.5220/0010788100003124" target="_blank" rel="noopener">DOI</a></div>
-        </div>
-      </li>
-      <li class="pub" data-type="talk">
-        <div class="yr">2022</div>
-        <div>
-          <div class="title">Video-based Detection and Tracking with Improved Re-Identification Association for Pigs and Laying Hens in Farms</div>
-          <div class="authors"><b>Q. Guo</b>, Y. Sun, L. Min, A. van Putten, E. Knol, B. Visser, T. Rodenburg, J. Bolhuis, P. Bijma, P. H. N. de With</div>
-          <div class="venue">Netherlands Conference on Computer Vision (NCCV 2022)</div>
-          <div class="links"><span>Poster</span></div>
-        </div>
-      </li>
-    </ol>
-  </div>
-</section>
+      </div>
+      <footer><span>&copy; <span id="yr">2026</span> Qinghua Guo</span><span>Eindhoven, NL</span></footer>
+    </section>
 
-<!-- ================= SKILLS / EDUCATION ================= -->
-<section class="block reveal" id="skills">
-  <div class="wrap grid3">
-    <div>
-      <h2>Skills</h2>
-      <div class="skillgroup"><h4>Languages</h4><div class="pills"><span class="pill">Python</span><span class="pill">Bash</span><span class="pill">MATLAB</span></div></div>
-      <div class="skillgroup"><h4>ML frameworks</h4><div class="pills"><span class="pill">PyTorch</span><span class="pill">TensorFlow</span><span class="pill">OpenCV</span><span class="pill">Ultralytics (YOLO)</span><span class="pill">TensorBoard</span><span class="pill">NumPy</span><span class="pill">Pandas</span><span class="pill">scikit-learn</span></div></div>
-      <div class="skillgroup"><h4>Engineering &amp; MLOps</h4><div class="pills"><span class="pill">FastAPI</span><span class="pill">Docker</span><span class="pill">GitHub Actions</span><span class="pill">Prometheus</span><span class="pill">Grafana</span><span class="pill">OpenTelemetry</span><span class="pill">Pydantic</span><span class="pill">Git</span><span class="pill">Linux</span></div></div>
-      <div class="skillgroup"><h4>Compute &amp; tooling</h4><div class="pills"><span class="pill">SLURM / HPC</span><span class="pill">Snellius (SURF)</span><span class="pill">Multi-GPU</span><span class="pill">CVAT</span><span class="pill">Anaconda</span><span class="pill">LaTeX</span></div></div>
-      <div class="skillgroup"><h4>ML areas</h4><div class="pills"><span class="pill g">Object Detection</span><span class="pill g">Multi-object Tracking</span><span class="pill g">Action Recognition</span><span class="pill g">Re-Identification</span><span class="pill g">Pose Estimation</span><span class="pill g">Classification</span><span class="pill g">Data Annotation</span><span class="pill g">LLM Applications</span></div></div>
-    </div>
-    <div>
-      <h2>Education</h2>
-      <div class="edu"><b>PhD in Electrical Engineering</b><div>Eindhoven University of Technology, NL</div><small><svg width="14" height="14"><use href="#i-cal"/></svg>2022.1 – 2026</small></div>
-      <div class="edu"><b>MSc in Electrical Engineering</b><div>Eindhoven University of Technology, NL</div><small><svg width="14" height="14"><use href="#i-cal"/></svg>2019.9 – 2021.11</small></div>
-      <div class="edu"><b>BSc in Electrical Engineering (Double degree)</b><div>HZ University of Applied Sciences, NL &amp;<br>Shanghai Maritime University, China</div><small><svg width="14" height="14"><use href="#i-cal"/></svg>2015.9 – 2019.8</small></div>
-
-      <h2 class="sm">Languages</h2>
-      <div class="pills" style="margin-bottom:28px"><span class="pill">English (professional)</span><span class="pill">Chinese (native)</span><span class="pill">Dutch (A2), actively improving</span></div>
-
-      <h2 class="sm">Outside work</h2>
-      <div class="pills"><span class="pill">Gym &amp; Cycling</span><span class="pill">Cooking &amp; Baking</span><span class="pill">Photography &amp; Filming</span></div>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<section class="contact" id="contact">
-  <div class="wrap">
-    <div>
-      <h2>Let's talk</h2>
-      <p>I'm looking for computer vision, machine learning and AI engineering roles in the Netherlands. The fastest way to reach me is email.</p>
-    </div>
-    <div class="actions">
-      <a class="btn primary" href="mailto:eudora826@gmail.com"><svg><use href="#i-mail"/></svg>eudora826@gmail.com</a>
-      <a class="btn" href="https://www.linkedin.com/in/qinghua-guo/" target="_blank" rel="noopener"><svg><use href="#i-in"/></svg>LinkedIn</a>
-      <a class="btn" href="https://github.com/Eudora826" target="_blank" rel="noopener"><svg><use href="#i-gh"/></svg>GitHub</a>
-      <a class="btn" href="https://scholar.google.com/citations?user=bpBROL0AAAAJ&amp;hl=en" target="_blank" rel="noopener"><svg><use href="#i-sch"/></svg>Scholar</a>
-    </div>
-  </div>
-</section>
-<footer><div class="wrap"><span>&copy; <span id="yr">2026</span> Qinghua Guo</span><span>Eindhoven, NL</span></div></footer>
+  </main>
+</div>
 
 <script>
-  // mobile menu
-  const btn = document.querySelector('.menu-btn'), menu = document.getElementById('menu');
-  btn.addEventListener('click', () => { const o = menu.classList.toggle('open'); btn.setAttribute('aria-expanded', o); });
-  menu.addEventListener('click', e => { if (e.target.tagName === 'A') { menu.classList.remove('open'); btn.setAttribute('aria-expanded', false); } });
-
   // publication filters
   document.querySelectorAll('.filters button').forEach(b => b.addEventListener('click', () => {
     document.querySelectorAll('.filters button').forEach(x => x.setAttribute('aria-pressed', x === b));
@@ -503,14 +508,23 @@
     document.querySelectorAll('.pub').forEach(p => p.hidden = f !== 'all' && p.dataset.type !== f);
   }));
 
-  // reveal on scroll + active nav link
-  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .08 });
+  // fade sections in as they scroll into view
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .06 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  const links = [...document.querySelectorAll('nav ul a')];
-  const spy = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
-  }), { rootMargin: '-45% 0px -50% 0px' });
-  document.querySelectorAll('section[id]').forEach(s => spy.observe(s));
+
+  // highlight the sidebar link of the section in view
+  const links = [...document.querySelectorAll('nav a')];
+  const setActive = id => links.forEach(a => {
+    const on = a.getAttribute('href') === '#' + id;
+    a.classList.toggle('active', on);
+    if (on && window.innerWidth <= 900) a.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  });
+  const spy = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) setActive(e.target.id); }),
+    { rootMargin: '-40% 0px -55% 0px' });
+  document.querySelectorAll('main section[id]').forEach(s => spy.observe(s));
+  setActive('about');
 
   document.getElementById('yr').textContent = new Date().getFullYear();
 </script>
